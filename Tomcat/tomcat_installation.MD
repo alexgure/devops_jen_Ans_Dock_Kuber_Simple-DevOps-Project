@@ -8,19 +8,31 @@
    ```sh 
    # Create tomcat directory
    cd /opt
+   
+   # check the latest version of Tomcat, skip this part, goto new
    wget http://mirrors.fibergrid.in/apache/tomcat/tomcat-8/v8.5.35/bin/apache-tomcat-8.5.35.tar.gz
+   https://mirror.csclub.uwaterloo.ca/apache/tomcat/tomcat-8/v8.5.61/bin/apache-tomcat-8.5.61.tar.gz
    tar -xvzf /opt/apache-tomcat-8.5.35.tar.gz
+   
+   # new part
+   # goto https://tomcat.apache.org and find version 8
+   copy link 
+   wget https://mirror.csclub.uwaterloo.ca/apache/tomcat/tomcat-8/v8.5.61/bin/apache-tomcat-8.5.61.tar.gz
+   tar -xvzf apache-tomcat-8.5.61.tar.gz
+   mv apache-tomcat-8.5.61.tar.gz tomcat
+   
+   goto #### Check point :
    ```
 1. give executing permissions to startup.sh and shutdown.sh which are under bin. 
    ```sh
-   chmod +x /opt/apache-tomcat-8.5.35/bin/startup.sh 
+   chmod +x /opt/tomcat/bin/startup.sh 
    shutdown.sh
    ```
 
 1. create link files for tomcat startup.sh and shutdown.sh 
    ```sh
-   ln -s /opt/apache-tomcat-8.5.35/bin/startup.sh /usr/local/bin/tomcatup
-   ln -s /opt/apache-tomcat-8.5.35/bin/shutdown.sh /usr/local/bin/tomcatdown
+   ln -s /opt/tomcat/bin/startup.sh /usr/local/bin/tomcatup
+   ln -s /opt/tomcat/bin/shutdown.sh /usr/local/bin/tomcatdown
    tomcatup
    ```
   #### Check point :
@@ -43,6 +55,17 @@ Access tomcat application from browser on port 8090
    ```sh
    #search for context.xml
    find / -name context.xml
+   
+   vi /opt/tomcat/webapps/manager/META-INF/context.xml
+   
+   <!-- we need to comment out this part, because allow loopback -->
+<!--  <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+         allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" /> -->
+   
+   and the same with 
+   ./tomcat/webapps/host-manager/META-INF/context.xml
+   
+   
    ```
 1. above command gives 3 context.xml files. comment (<!-- & -->) `Value ClassName` field on files which are under webapp directory. 
 After that restart tomcat services to effect these changes

@@ -9,6 +9,7 @@
       chdir: /opt/docker
 
 # option-2 : creating docker image using docker_image module 
+# https://docs.ansible.com/ansible/2.8/modules/docker_image_module.html#docker-image-module
 
 #  tasks:
 #  - name: building docker image
